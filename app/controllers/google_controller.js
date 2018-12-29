@@ -1,6 +1,7 @@
 import axios from 'axios';
 import querystring from 'querystring';
 import Admin from '../models/admin';
+// import Review from '../models/review';
 
 const { google } = require('googleapis');
 // import dotenv from 'dotenv';
@@ -20,20 +21,6 @@ export async function fetchGoogleTokens(req, res) {
   const { tokens } = await oauth2Client.getToken(req.body.code);
   console.log('tokens', tokens);
   oauth2Client.setCredentials(tokens);
-  // await axios.post('https://www.googleapis.com/oauth2/v3/token', {
-  //   form: {
-  //     grant_type: 'refresh_token',
-  //     refresh_token: tokens.refresh_token,
-  //     client_id: YOUR_CLIENT_ID,
-  //     client_secret: YOUR_CLIENT_SECRET,
-  //   },
-  // }).then((response) => {
-  //   console.log('trying to fetch access token');
-  //   console.log(response);
-  // })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
   const accessToken = tokens.access_token;
   const admin = new Admin();
   admin.UserName = 'ACP';
@@ -71,7 +58,28 @@ export async function refreshData(req, res) {
         }),
       ).then((response) => {
         console.log('trying to fetch access token');
-        console.log(response);
+        console.log(response.data);
+        axios.post('http://localhost:5000/google/', { accessToken: response.data.access_token })
+          .then((reviews) => {
+            console.log(reviews.data);
+            // for (let i = 0; i < reviews.data.length; i += 1) {
+            //   Review.find(
+            //     { Content: reviews.data[i].Content },
+            //     { Date: reviews.data[i].Date },
+            //     { Rating: reviews.data[i].Rating },
+            //     { Location: reviews.data[i].Location },
+            //     (error, review) => {
+            //       if (error) console.log('error finding review', reviews.data[i]);
+            //       else {
+            //         console.log('found review');
+            //       }
+            //     },
+            //   );
+            // }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
         .catch((error) => {
           console.log(error);
