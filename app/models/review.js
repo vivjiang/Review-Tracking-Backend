@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const ReviewSchema = new Schema({
   Location: String,
-  Date,
+  Date: String,
   Rating: String,
   Content: String,
   Platform: String,

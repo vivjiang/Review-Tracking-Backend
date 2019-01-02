@@ -10,8 +10,9 @@ import router from './router';
 const app = express();
 
 // DB Setup
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/reviews_database';
-mongoose.connect(mongoURI);
+// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/reviews_database';
+const mongoURI = 'mongodb://admin:ACP2018@ds145304.mlab.com:45304/reviews';
+mongoose.connect(mongoURI, { useNewUrlParser: true });
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
 

@@ -40,9 +40,8 @@ export async function fetchGoogleTokens(req, res) {
     });
 }
 
-export async function refreshData(req, res) {
+setInterval(async (req, res) => {
   console.log('in refreshData');
-  console.log(req.body);
   Admin.find({ UserName: 'ACP' }, (err, admin) => {
     if (err) console.log('error finding ACP');
     else {
@@ -93,7 +92,7 @@ export async function refreshData(req, res) {
   //   .catch((error) => {
   //     console.log(error);
   //   });
-}
+}, 21600000);
 
 export const saveAccessToken = (req, res) => {
   console.log('in fetchGoogleReviews');
