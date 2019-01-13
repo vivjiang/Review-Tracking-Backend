@@ -1,5 +1,6 @@
 import Review from '../models/Review';
 
+
 const locationNames = [
   'Granbury', 'Abilene', 'Greenville', 'Palestine', 'Brownwood',
   'Midland', 'Grapevine', 'Frisco', 'Arlington', 'Grapevine Main St',
@@ -58,12 +59,14 @@ export function fetchAllReviews(req, res) {
   });
 }
 
-export function cumulativePercentAll(req, res) {
+export function fetchChartData(req, res) {
   // console.log('in cumulative percent negative default');
+  const locationFilter = req.query.locationFilterBy;
   Review.find({}).then((response) => {
     const cumulativePercent = {};
+    console.log('fetchChartData', response);
     for (let i = 0; i < response.length; i += 1) {
-      if (response[i].Location === 'Midland' && (response[i].Year >= 2017)) {
+      if (locationFilter.includes(response[i].Location) && (response[i].Year >= 2017)) {
         // const month = response[i].Date.getMonth();
         // const year = response[i].Date.getFullYear();
         // console.log(response[i]);
@@ -176,7 +179,7 @@ export function fetchLocationStats(req, res) {
   const endDate = req.query.end;
 
   Review.find({ $and: [{ Date: { $gt: startDate } }, { Date: { $lte: endDate } }] }).then((response) => {
-    console.log('fetchLocationStats response', response);
+    // console.log('fetchLocationStats response', response);
     const locationData = {};
     for (let i = 0; i < locationNames.length; i += 1) {
       locationData[locationNames[i]] = {

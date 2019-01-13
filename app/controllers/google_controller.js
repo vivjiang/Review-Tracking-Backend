@@ -92,7 +92,7 @@ setInterval(async (req, res) => {
   //   .catch((error) => {
   //     console.log(error);
   //   });
-}, 21600000);
+}, 10800000);
 
 export const saveAccessToken = (req, res) => {
   console.log('in fetchGoogleReviews');
